@@ -1,0 +1,84 @@
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(to right, #4a90e2, #50e3c2);
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+/* Container Styles */
+#container {
+  width: 80%;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Scatterplot Styles */
+#scatterplot {
+  border: 2px solid #ffffff;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Dot Styles */
+.dot {
+  fill: #3498db; /* A brighter blue for dots */
+  stroke: #2980b9; /* A darker blue for stroke */
+  stroke-width: 1.5px;
+  transition: transform 0.2s; /* Smooth transformation */
+}
+
+.dot:hover {
+  transform: scale(1.2); /* Grow effect on hover */
+}
+
+/* Tooltip Styles */
+.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  border-radius: 5px;
+  pointer-events: none;
+  transition: opacity 0.2s ease; /* Fade in/out effect */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Legend Styles */
+#legend {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+
+#legend span {
+  margin: 0 10px;
+  color: #2980b9; /* Consistent color with dots */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  #container {
+    width: 95%;
+  }
+
+  #scatterplot {
+    width: 100%;
+    height: auto;
+  }
+
+  #legend {
+    font-size: 14px; /* Smaller font on mobile */
+  }
+}

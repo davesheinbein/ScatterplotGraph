@@ -1,0 +1,72 @@
+const url =
+  "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json";
+
+d3.json(url).then((data) => {
+  // Format data
+  data.forEach((d) => {
+    d.Year = +d.Year;
+    d.Time = new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1]);
+  });
+
+  const margin = { top: 20, right: 30, bottom: 40, left: 60 },
+    width = 800 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+  const svg = d3
+    .select("#scatterplot")
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Set x and y scales
+  const x = d3
+    .scaleLinear()
+    .domain(d3.extent(data, (d) => d.Year))
+    .range([0, width]);
+
+  const y = d3
+    .scaleTime()
+    .domain(d3.extent(data, (d) => d.Time))
+    .range([height, 0]);
+
+  // Add x-axis
+  svg
+    .append("g")
+    .attr("id", "x-axis")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format("d")));
+
+  // Add y-axis
+  svg
+    .append("g")
+    .attr("id", "y-axis")
+    .call(d3.axisLeft(y).tickFormat(d3.timeFormat("%M:%S")).ticks(10));
+
+  // Create dots
+  svg
+    .selectAll(".dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("cx", (d) => x(d.Year))
+    .attr("cy", (d) => y(d.Time))
+    .attr("r", 5)
+    .attr("data-xvalue", (d) => d.Year)
+    .attr("data-yvalue", (d) => d.Time)
+    .on("mouseover", (event, d) => {
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(200).style("opacity", 0.9);
+      tooltip
+        .html(
+          `Year: ${
+            d.Year
+          }<br>Time: ${d.Time.getMinutes()}:${d.Time.getSeconds()}`
+        )
+        .attr("data-year", d.Year)
+        .style("left", event.pageX + 5 + "px")
+        .style("top", event.pageY - 28 + "px");
+    })
+    .on("mouseout", () => {
+      d3.select("#tooltip").transition().duration(500).style("opacity", 0);
+    });
+});
